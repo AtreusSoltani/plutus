@@ -1,27 +1,17 @@
 from rest_framework import viewsets, mixins
-from wallet.models import IAMUser, Record
-from wallet.serializers import IAMUserSerializer, RecordSerializer
+from wallet.models import Record
+from wallet.serializers import RecordSerializer
 from django.utils.decorators import method_decorator
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema, no_body
 import rest_framework.status as status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
-@method_decorator(
-    name="list",
-    decorator=swagger_auto_schema(
-        operation_description="Lists all records",
-        tags=["Records"],
-    ),
-)
-@method_decorator(
-    name="retrieve",
-    decorator=swagger_auto_schema(
-        operation_description="Gets the record with the given uuid",
-        tags=["Records"],
-    ),
-)
 class RecordViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     serializer_class = RecordSerializer
 
     def get_queryset(self):
@@ -47,8 +37,6 @@ class RecordViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status.HTTP_201_CREATED, headers=headers
         )
-
-        serializer_class = UserSerializer
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -3,4 +3,5 @@ djangorestframework
 markdown
 django-filter
 drf_yasg
-requests
+requests==2.25.1
+jwt

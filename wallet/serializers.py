@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from .models import IAMUser, Record
+from .models import Record
+from django.contrib.auth.models import User
 
-class IAMUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = IAMUser
-        fields = ['uuid', 'username']
+        model = User
+        fields = ["username", "password"]
 
 class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Record
-        fields = ['uuid', 'user', 'amount', 'date', 'description']
-        
+        fields = "__all__"
