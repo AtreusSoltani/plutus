@@ -1,0 +1,7 @@
+django
+djangorestframework
+markdown
+django-filter
+drf_yasg
+requests==2.25.1
+jwt

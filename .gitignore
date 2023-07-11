@@ -1,0 +1,5 @@
+# Python Environment
+venv/
+
+# Django stuff:
+db.sqlite3
