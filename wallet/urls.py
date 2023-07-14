@@ -16,6 +16,9 @@ router.register(r'records', record.RecordViewSet, basename='records')
 router.register(r'categories', category.CategoryViewSet, basename='categories')
 router.register(r'budget', budget.BudgetViewSet, basename='budget')
 router.register(r'token', token.TokenViewSet, basename='token')
+router.register(r'login', auth.LoginViewset, basename='login')
+router.register(r'register', auth.RegisterViewset, basename='register')
+
 # router.register(r'register', auth.RegistrationViewSet, basename='register')
 # router.register(r'login', MyObtainTokenPairView.as_view(), name='login')
 

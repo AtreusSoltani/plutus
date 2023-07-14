@@ -12,14 +12,14 @@ class BudgetViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = BudgetSerializer
 
-    def get_balance_single_info(self, user_id, category_id, year, month): #budget, spent
+    def get_balance_single_info(self, user_id, category, year, month): #budget, spent
         try:
-            budget = Budget.objects.get(category_id=category_id, user_id=user_id, date_month=month, date_year=year)
+            budget = Budget.objects.get(category=category, user_id=user_id, date_month=month, date_year=year)
         except Budget.DoesNotExist:
             return False, None, None    
         budget = budget.budget
 
-        related_records = Record.objects.filter(user_id=user_id, category_id=category_id, date__year=year, date__month=month).values()
+        related_records = Record.objects.filter(user_id=user_id, category=category, date__year=year, date__month=month).values()
         spent = 0
         for record in related_records:
             spent += record['amount']
@@ -27,13 +27,12 @@ class BudgetViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         user = request.user 
-        print(request.body)
         data_json = json.loads(request.body)
         month, year = data_json['month'], data_json['year']
         categories = Category.objects.all()
         ret = []
         for category in categories:
-            is_exist, budget, spent = self.get_balance_single_info(user.id, category.id, year, month)
+            is_exist, budget, spent = self.get_balance_single_info(user.id, category.name, year, month)
             if is_exist:
                 ret.append({'category': category.name, 'budget': budget, 'spent': spent})
         return Response(ret)
