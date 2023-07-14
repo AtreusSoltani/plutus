@@ -28,7 +28,8 @@ class RecordViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        serializer = RecordSerializer(data=request.data)
+        print(request.user.id)
+        serializer = RecordSerializer(data={**request.data,'user_id':request.user.id})
         serializer.is_valid(raise_exception=True)
         saved = serializer.save()
 

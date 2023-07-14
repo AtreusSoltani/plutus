@@ -16,6 +16,7 @@ class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Record
         fields = "__all__"
+    
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
