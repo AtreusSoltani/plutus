@@ -7,33 +7,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
-# class MyObtainTokenPairView(TokenObtainPairView):
-#     permission_classes = (AllowAny,)
-#     serializer_class = MyTokenObtainPairSerializer
-
-
-"""def login(request):
-    if request.method != 'POST':
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-    user_infos = json.loads(request.body)
-    user_name, password = user_infos['username'], user_infos['password']
-    user = User.objects.get(username=user_name)
-    if user['password'] != password:
-        return Response(data={'message': "username or password is wrong. please try again"}, status=status.HTTP_401_UNAUTHORIZED)
-    token = Token.objects.create(user=user['id'])
-    return Response(data={'token':f'{token.key}'}, status=status.HTTP_200_OK)
-
-def sign_up(request):
-    if request.method != 'POST':
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-    user_infos = json.loads(request.body)
-    user_name, password = user_infos['username'], user_infos['password']
-    
-    user = User.objects.get(username=user_name)
-    if user['password'] != password:
-        return Response(data={'message': "username or password is wrong. please try again"}, status=status.HTTP_401_UNAUTHORIZED)
-    token = Token.objects.create(user=user['id'])
-    return Response(data={'token':f'{token.key}'}, status=status.HTTP_200_OK)"""
 
 
 class LoginViewset(viewsets.ModelViewSet):
@@ -47,11 +20,9 @@ class LoginViewset(viewsets.ModelViewSet):
         user_infos = json.loads(request.body)
         user_name, password = user_infos['username'], user_infos['password']
         user = User.objects.get(username=user_name)
-        print(user)
-        if user.password != password:
+        if not user.check_password(password):
             return Response(data={'message': "username or password is wrong. please try again"}, status=status.HTTP_401_UNAUTHORIZED)
-        token = Token.objects.create(user=user)
-        print(token.key)
+        token = Token.objects.get(user=user)
         return Response(data={'token':f'{token.key}'}, status=status.HTTP_200_OK)
     
 

@@ -30,6 +30,6 @@ class BudgetSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         month = int(attrs['date_month'])
-        if month < 0 or 11 < month:
+        if month < 1 or 12 < month:
             raise serializers.ValidationError(f"unexpected month id. the month id is {month}")
         return super().validate(attrs)
