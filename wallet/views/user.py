@@ -23,9 +23,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request):
         users = self.get_queryset()
         serializer = self.get_serializer(users, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data) 
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, token=None):
         user = self.get_object()
         serializer = self.get_serializer(user)
         return Response(serializer.data)
@@ -47,3 +47,4 @@ class UserViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status.HTTP_204_NO_CONTENT)
+        
