@@ -6,7 +6,8 @@ from wallet.views import (
     auth,
     category,
     budget,
-    token
+    token,
+    report
 )
 
 
@@ -18,10 +19,14 @@ router.register(r'budget', budget.BudgetViewSet, basename='budget')
 router.register(r'token', token.TokenViewSet, basename='token')
 router.register(r'login', auth.LoginViewset, basename='login')
 router.register(r'register', auth.RegisterViewset, basename='register')
+#router.register(r'report', auth.RegisterViewset, basename='register')
 
 # router.register(r'register', auth.RegistrationViewSet, basename='register')
 # router.register(r'login', MyObtainTokenPairView.as_view(), name='login')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('report/expend/<int:year>/<int:month>', report.ReportViewSet.as_view({'get': 'get_categories_expend'}), name='get_categories_expend'),
+    path('report/expend/<int:year>', report.ReportViewSet.as_view({'get': 'get_months_expend'}), name='get_months_expend'),
+    path('report/inventory/<int:year>', report.ReportViewSet.as_view({'get': 'get_months_inventory'}), name='get_months_inventory'),
 ]
