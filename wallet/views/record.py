@@ -38,8 +38,4 @@ class RecordViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status.HTTP_201_CREATED, headers=headers
         )
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(HTTP_204_NO_CONTENT)
+        
