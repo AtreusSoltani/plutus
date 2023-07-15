@@ -26,9 +26,9 @@ class BudgetViewSet(viewsets.ModelViewSet):
         return True, budget, spent 
 
     def list(self, request):
-        user = request.user 
-        data_json = json.loads(request.body)
-        month, year = data_json['month'], data_json['year']
+        user = request.user
+        month, year = request.query_params['month'], request.query_params['year']
+        print(f'{month}, {year}')
         categories = Category.objects.all()
         ret = []
         for category in categories:
