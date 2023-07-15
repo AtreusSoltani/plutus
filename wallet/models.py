@@ -4,6 +4,7 @@ from django.contrib import admin
 import uuid
 from django.contrib.auth.models import User
 from django import forms
+import django.utils.timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
@@ -23,7 +24,7 @@ class Record(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, db_column='category', null=False)
     amount = models.IntegerField()
     payee = models.CharField(max_length=100, null=True)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=django.utils.timezone.now)
     description = models.CharField(max_length=100)
 
     def __str__(self):

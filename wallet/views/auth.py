@@ -20,11 +20,9 @@ class LoginViewset(viewsets.ModelViewSet):
         user_infos = json.loads(request.body)
         user_name, password = user_infos['username'], user_infos['password']
         user = User.objects.get(username=user_name)
-        print(user)
-        if user.password != password:
+        if not user.check_password(password):
             return Response(data={'message': "username or password is wrong. please try again"}, status=status.HTTP_401_UNAUTHORIZED)
-        token = Token.objects.create(user=user)
-        print(token.key)
+        token = Token.objects.get(user=user)
         return Response(data={'token':f'{token.key}'}, status=status.HTTP_200_OK)
     
 
