@@ -14,10 +14,10 @@ class BudgetViewSet(viewsets.ModelViewSet):
 
     def get_balance_single_info(self, user_id, category, year, month): #budget, spent
         try:
-            budget = Budget.objects.get(category=category, user_id=user_id, date_month=month, date_year=year)
+            budgetObject = Budget.objects.get(category=category, user_id=user_id, date_month=month, date_year=year)
+            budget = budgetObject.budget
         except Budget.DoesNotExist:
-            return False, None, None    
-        budget = budget.budget
+            budget = 0
 
         related_records = Record.objects.filter(user_id=user_id, category=category, date__year=year, date__month=month).values()
         spent = 0

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, mixins
-from wallet.models import Record
+from wallet.models import Record, Category
 from wallet.serializers import RecordSerializer
 from django.utils.decorators import method_decorator
 from rest_framework.decorators import action, api_view, permission_classes
@@ -18,13 +18,22 @@ class RecordViewSet(viewsets.ModelViewSet):
         return Record.objects.all()
 
     def list(self, request):
-        records = self.get_queryset()
-        serializer = self.get_serializer(records, many=True)
-        return Response(serializer.data)
+        user = request.user
+        try:
+            start_date = request.query_params['start_date']
+        except:
+            start_date = '1970-01-01'
+        try:
+            end_date = request.query_params['end_date']
+        except:
+            end_date = '9999-12-31'
+        try:
+            category = [request.query_params['category']]
+        except:
+            category = Category.objects.all().values_list('name', flat=True)
 
-    def retrieve(self, request, pk=None):
-        record = self.get_object()
-        serializer = self.get_serializer(record)
+        records = Record.objects.filter(user_id=user.id, date__range=[start_date, end_date], category__in=category)
+        serializer = self.get_serializer(records, many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):

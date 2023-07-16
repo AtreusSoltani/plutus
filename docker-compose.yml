@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  plutus:
+    container_name: 'plutus'
+    image: 'plutus:0.0.3'
+    ports: 
+      - 8000:8000
+  
