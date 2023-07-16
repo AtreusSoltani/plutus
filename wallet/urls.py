@@ -26,7 +26,7 @@ router.register(r'register', auth.RegisterViewset, basename='register')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('report/expend/<int:year>/<int:month>', report.ReportViewSet.as_view({'get': 'get_categories_expend'}), name='get_categories_expend'),
+    path('report/category/<int:year>', report.ReportViewSet.as_view({'get': 'get_categories_expend'}), name='get_categories_expend'),
     path('report/expend/<int:year>', report.ReportViewSet.as_view({'get': 'get_months_expend'}), name='get_months_expend'),
     path('report/inventory/<int:year>', report.ReportViewSet.as_view({'get': 'get_months_inventory'}), name='get_months_inventory'),
 ]

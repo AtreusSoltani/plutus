@@ -11,14 +11,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from wallet.models import Budget, Record, Category
 
-class ReportViewSet(viewsets.ModelViewSet):
+class   ReportViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     
     @action(detail=True, methods=['get'])
-    def get_categories_expend(self, request, year, month):
+    def get_categories_expend(self, request, year):
         user = request.user 
-        related_records = Record.objects.filter(user_id=user.id, date__year=year, date__month=month)
+        related_records = Record.objects.filter(user_id=user.id, date__year=year)
         category = set([x.category for x in related_records])
         def get_expense_for_category(cat):
             return sum([x.amount for x in related_records if x.category == cat and x.amount < 0])
