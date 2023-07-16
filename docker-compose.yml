@@ -3,7 +3,16 @@ version: '3.8'
 services:
   plutus:
     container_name: 'plutus'
-    image: 'plutus:0.0.3'
+    image: 'plutus:0.0.4'
     ports: 
       - 8000:8000
-  
+
+  postgres:
+    container_name: 'postgres'
+    image: 'postgres:13.3'
+    environment:
+      - POSTGRES_DB=plutus
+      - POSTGRES_USER=plutus
+      - POSTGRES_PASSWORD=plutus
+    ports:
+      - 5432:5432  
