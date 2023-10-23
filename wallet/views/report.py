@@ -10,10 +10,13 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from wallet.models import Budget, Record, Category
+from rest_framework.throttling import UserRateThrottle
 
 class   ReportViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+
     
     @action(detail=True, methods=['get'])
     def get_categories_expend(self, request, year):

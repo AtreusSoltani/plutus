@@ -8,11 +8,13 @@ from drf_yasg.utils import swagger_auto_schema, no_body
 import rest_framework.status as status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.throttling import UserRateThrottle
 
 class RecordViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = RecordSerializer
+    throttle_classes = [UserRateThrottle]
 
     def get_queryset(self):
         return Record.objects.all()
